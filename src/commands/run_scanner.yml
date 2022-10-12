@@ -15,6 +15,12 @@ parameters:
       Opts passed to the Java executable.
       Usefull to allocate memory.
       https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/
+  extra_args:
+    type: string
+    default: ''
+    description: >
+      Append extra arguments to SonarScanner CLI.
+      https://docs.sonarqube.org/latest/analysis/analysis-parameters/
   directory:
     type: string
     default: "."
@@ -27,4 +33,5 @@ steps:
         PARAM_LOGIN: << parameters.login >>
         PARAM_OPTS: << parameters.opts >>
         PARAM_DIRECTORY: << parameters.directory >>
+        PARAM_EXTRA_ARGS: << parameters.extra_args >>
       command: << include(scripts/run_scanner.sh) >>
