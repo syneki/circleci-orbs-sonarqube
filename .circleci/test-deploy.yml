@@ -24,7 +24,7 @@ jobs:
           name: Get path
           command: |
             echo $PATH
-            cat /tmp/sonar-scanner/bin
+            ls /tmp
       - sonarqube/run_scanner
 workflows:
   test-deploy:
