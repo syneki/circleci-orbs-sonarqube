@@ -22,7 +22,9 @@ jobs:
       - sonarqube/install_scanner
       - run:
           name: Get path
-          command: echo $PATH
+          command: |
+            echo $PATH
+            cat /tmp/sonar-scanner/bin
       - sonarqube/run_scanner
 workflows:
   test-deploy:
