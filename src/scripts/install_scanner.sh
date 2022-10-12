@@ -5,4 +5,4 @@ wget "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scan
 unzip "sonar-scanner-cli-$PARAM_VERSION.zip"
 mv "sonar-scanner-cli-$PARAM_VERSION.zip" "sonar-scanner"
 
-echo "export PATH="/tmp/sonar-scanner/bin:$PATH"" >> "$BASH_ENV"
+echo 'export PATH=/tmp/sonar-scanner/bin:"$PATH"' >> "$BASH_ENV"
