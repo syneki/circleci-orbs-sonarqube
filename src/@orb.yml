@@ -2,6 +2,9 @@ version: 2.1
 
 description: >
   Easily run SonarScanner on your projects using this Orb.
+  SonarQube empowers all developers to write cleaner and safer code.
+  Join an Open Community of more than 200k dev teams.
+  More information: https://www.sonarqube.org/
 
 display:
   home_url: "https://github.com/syneki/circleci-orbs-sonarqube"
