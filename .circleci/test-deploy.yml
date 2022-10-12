@@ -16,16 +16,7 @@ jobs:
     steps:
       - checkout
       # Run your orb's commands to validate them.
-      - run:
-          name: Create Fake sonar-project.properties
-          command: echo "sonar.projectKey=test" >> sonar-project.properties
       - sonarqube/install_scanner
-      - run:
-          name: Get path
-          command: |
-            echo $PATH
-            ls /tmp
-      - sonarqube/run_scanner
 workflows:
   test-deploy:
     jobs:
