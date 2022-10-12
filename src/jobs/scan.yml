@@ -1,0 +1,65 @@
+description: >
+  Sample description
+# What will this job do?
+
+parameters:
+  version:
+    type: string
+    default: 4.7.0.2747
+    description: >
+      The SonarScanner CLI version.
+  login:
+    type: env_var_name
+    default: SONARQUBE_TOKEN
+    description: >
+      A Token to authenticate to SonarQube.
+      https://docs.sonarqube.org/latest/user-guide/user-token/
+  opts:
+    type: string
+    default: "-Xmx2048m"
+    description: >
+      Opts passed to the Java executable.
+      Usefull to allocate memory.
+      https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/
+  extra_args:
+    type: string
+    default: ''
+    description: >
+      Append extra arguments to SonarScanner CLI.
+      https://docs.sonarqube.org/latest/analysis/analysis-parameters/
+  directory:
+    type: string
+    default: "."
+    description: >
+      Directory where SonarScanner will be executed.
+  executor_tag:
+    type: string
+    default: 11.0.16
+    description: >
+      Pick a specific image variant:
+      https://hub.docker.com/r/cimg/openjdk/tags
+executor:
+  name: default
+  tag: << parameters.executor_tag >>
+
+steps:
+  - checkout
+  - restore_cache:
+      name: Restore SonarScanner cache
+      keys:
+        - sonarscanner-v1-{{ .Branch }}-{{ checksum "sonar-project.properties" }}
+        - sonarscanner-v1-{{ .Branch }}-
+        - sonarscanner-v1-
+  - install_scanner:
+      version: << parameters.version >>
+  - run_scanner:
+      login: << parameters.login >>
+      opts: << parameters.opts >>
+      extra_args: << parameters.extra_args >>
+      directory: << parameters.directory >>
+  - save_cache:
+      name: Save SonarScanner cache
+      paths:
+        - ~/.sonar/cache
+      key: sonarscanner-v1-{{ .Branch }}-{{ checksum "sonar-project.properties" }}
+
