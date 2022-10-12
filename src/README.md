@@ -1,26 +1,52 @@
-# Orb Source
+# Sonarqube Orb  [![CircleCI Build Status](https://circleci.com/gh/syneki/circleci-orbs-sonarqube.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/syneki/circleci-orbs-sonarqube) [![CircleCI Orb Version](https://badges.circleci.com/orbs/syneki/sonarqube.svg)](https://circleci.com/orbs/registry/orb/syneki/sonarqube) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/syneki/circleci-orbs-sonarqube/main/LICENSE)
 
-Orbs are shipped as individual `orb.yml` files, however, to make development easier, it is possible to author an orb in _unpacked_ form, which can be _packed_ with the CircleCI CLI and published.
+Easily run SonarScanner on your projects using this Orb.
 
-The default `.circleci/config.yml` file contains the configuration code needed to automatically pack, test, and deploy any changes made to the contents of the orb source in this directory.
+[What are Orbs?](https://circleci.com/orbs/)
 
-## @orb.yml
+## Usage
 
-This is the entry point for our orb "tree", which becomes our `orb.yml` file later.
+### Allow uncertified Orbs
 
-Within the `@orb.yml` we generally specify 4 configuration keys
+This Orb is not certified by CircleCI.
+You must check "Yes" on "Allow Uncertified Orbs" in your Advanced Organization Settings.
 
-**Keys**
+### Create a Token
 
-1. **version**
-    Specify version 2.1 for orb-compatible configuration `version: 2.1`
-2. **description**
-    Give your orb a description. Shown within the CLI and orb registry
-3. **display**
-    Specify the `home_url` referencing documentation or product URL, and `source_url` linking to the orb's source repository.
-4. **orbs**
-    (optional) Some orbs may depend on other orbs. Import them here.
+In order to use the Sonarqube Orb on CircleCI you will need to create a Token to authorize CLIs to authenticate to your SonarQube instance.
 
-## See:
- - [Orb Author Intro](https://circleci.com/docs/2.0/orb-author-intro/#section=configuration)
- - [Reusable Configuration](https://circleci.com/docs/2.0/reusing-config)
+Travel to the following link: https://<sonarqube-url>/account/security and generate a new token with Project or Global analysis type.
+
+Add this token under `SONARQUBE_TOKEN` environment variable using Project Environment Variables or Contexts.
+
+### Create a `sonar-project.properties`
+
+If it does not exist, create at the root of your project a new file called `sonar-project.properties` and fill it with the following content:
+
+```properties
+sonar.projectKey=<project-key>
+sonar.host.url=https://<sonarqube-url>
+```
+
+> You can get a project Key by creating a project on SonarQube.
+
+More information on the [Official documentation](https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/)
+
+### Run a scan in your workflow
+
+Example usage:
+```yml
+version: 2.1
+
+orbs:
+  sonarqube: syneki/sonarqube@1.0.0
+
+workflows:
+  main:
+    jobs:
+      - sonarqube/scan
+```
+
+## Contributing
+
+We welcome [issues](https://github.com/syneki/circleci-orbs-sonarqube/issues) to and [pull requests](https://github.com/syneki/circleci-orbs-sonarqube/pulls) against this repository!
