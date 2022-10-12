@@ -12,11 +12,18 @@ jobs:
   # You may want to add additional validation steps to ensure the commands are working as expected.
   command-tests:
     docker:
-      - image: cimg/base:current
+      - image: cimg/openjdk:11.0.16
     steps:
       - checkout
       # Run your orb's commands to validate them.
-      - sonarqube/install_scanner
+      - sonarqube/install_scanner:
+          post-steps:
+            - run:
+                command: echo "$PATH"
+      - sonarqube/run_scanner:
+          pre-steps:
+            - run:
+                command: echo "sonar.projectKey=test" >> sonar-project.properties
 workflows:
   test-deploy:
     jobs:
