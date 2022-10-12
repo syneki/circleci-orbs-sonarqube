@@ -1,0 +1,15 @@
+description: >
+  Downloads and installs SonarScanner.
+
+parameters:
+  version:
+    type: string
+    default: 4.7.0.2747
+    description: >
+      The SonarScanner CLI version.
+steps:
+  - run:
+      name: Download and install SonarScanner
+      environment:
+        PARAM_VERSION: << parameters.version >>
+      command: << include(scripts/install_scanner.sh) >>

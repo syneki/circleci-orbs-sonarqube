@@ -1,0 +1,30 @@
+description: >
+  Downloads and installs SonarScanner.
+
+parameters:
+  login:
+      type: env_var_name
+      default: SONARQUBE_TOKEN
+      description: >
+        A Token to authenticate to SonarQube.
+        https://docs.sonarqube.org/latest/user-guide/user-token/
+  opts:
+    type: string
+    default: "-Xmx2048m"
+    description: >
+      Opts passed to the Java executable.
+      Usefull to allocate memory.
+      https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/
+  directory:
+    type: string
+    default: "."
+    description: >
+      Directory where SonarScanner will be executed.
+steps:
+  - run:
+      name: Run Sonarscanner
+      environment:
+        PARAM_LOGIN: << parameters.login >>
+        PARAM_OPTS: << parameters.opts >>
+        PARAM_DIRECTORY: << parameters.directory >>
+      command: << include(scripts/run_scanner.sh) >>
